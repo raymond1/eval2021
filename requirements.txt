@@ -1,0 +1,12 @@
+Package       Version
+------------- -------
+asgiref       3.5.0
+Django        4.0.2
+dnspython     2.2.0
+pi            0.1.2
+pip           22.0.3
+pykerberos    1.2.1
+pymongo       4.0.1
+python-snappy 0.6.0
+setuptools    59.0.1
+sqlparse      0.4.2
