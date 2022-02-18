@@ -1,11 +1,8 @@
 from pymongo import MongoClient
 
-def get_db_handle(db_name, host, port, username, password):
-
- client = MongoClient(host=host,
-                      port=int(port),
-                      username=username,
-                      password=password
-                     )
- db_handle = client[db_name]
- return db_handle, client
+def get_default_collection():
+  connect_string = 'mongodb://localhost' 
+  client = MongoClient(connect_string)
+  db = client['wallets']
+  collection = db["addresses"]
+  return collection

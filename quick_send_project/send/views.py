@@ -2,7 +2,7 @@ from string import Template
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from utils import get_db_handle
+from utils import get_default_collection
 from django.template import loader
 #from blockcypher import get_address_overview
 #from pycurl import Curl
@@ -16,15 +16,23 @@ def send(request):
 
 	return HttpResponse(template.render(context,request))
 
-def lookup(request):
+def lookup(request, address=''):
 	template = loader.get_template('send/lookup.html')
-	context = {}
+
+	address_information = ''
+	#if address != '':
+	#	address_information = requests.get('http://localhost:8000/api/lookup/' + address)
+
+	#print(address_information)
+	context = {'address': address, 'address_information': address_information}
 
 	return HttpResponse(template.render(context,request))
 
 def index(request):
 	template = loader.get_template('send/index.html')
-	context = {}
+	collection = get_default_collection()
+	addresses = collection.find({})
+	context = {'addresses':addresses}
 
 	return HttpResponse(template.render(context,request))
 	#	amount_in_satoshis = r.json()['final_balance']

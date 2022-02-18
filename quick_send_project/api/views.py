@@ -4,10 +4,9 @@ from django.http import HttpResponse, JsonResponse
 from api.models import Address
 from django.utils import timezone
 import datetime
-import pymongo
-import json
-#from utils import get_db_handle
-# Create your views here.
+import utils
+import qrcode
+import io
 
 #o is any object
 #fields is an array of strings representing field names
@@ -56,12 +55,8 @@ def lookup(request, address):
   json_output = None
   fields_to_copy = ['address','balance','final_balance','final_n_tx','n_tx','total_received','total_sent','unconfirmed_balance','unconfirmed_n_tx']
 
+  collection = utils.get_default_collection()
 
-  #connect_string = 'mongodb://raymond:a@127.0.0.1:27017/wallets?retryWrites=true&w=majority' 
-  connect_string = 'mongodb://localhost' 
-  client = pymongo.MongoClient(connect_string)
-  db = client['wallets']
-  collection = db["addresses"]
   if check_db_for_address(collection, address):
     #retrieve information from database
     record = collection.find_one({'address': address})
@@ -78,7 +73,6 @@ def lookup(request, address):
     else:
       #Retrieve information from database
       json_output = copy_fields(record, fields_to_copy)
-      #json.dumps(record, indent = 4)
       print('Database hit')
   else:
     #record not found. Retreive information from ledger and insert into database
@@ -86,3 +80,12 @@ def lookup(request, address):
     json_output = fetch_address_information(collection, address)
 
   return JsonResponse(json_output)
+
+def generate_qr_code(request,address):
+  data = 'http://localhost:8000/wallets/lookup/' + address
+  
+  # Encoding data using make() function
+  img = qrcode.make(data)
+  output = io.BytesIO()
+  img.save(output, format='JPEG')
+  return HttpResponse(output.getbuffer(), content_type="image/jpeg")

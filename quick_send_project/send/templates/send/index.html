@@ -4,6 +4,11 @@
     <title>Wallet Addresses</title>
   </head>
   <body>
-
+    <h1>Wallet Addresses</h1>
+    <ul>
+    {% for address in addresses %}
+        <li><a href="{% url 'send:lookup' address.address %}">{{ address.address }}</a></li>
+    {% endfor %}
+    </ul>
   </body>  
 </html>

@@ -4,11 +4,14 @@
     <title>Look up wallet addresses</title>
   </head>
   <body>
-    Enter a wallet address: <input id="address">
+    Enter a wallet address: <input id="address" value="{{address}}">
     <button type="button" id="lookup_button">Submit</button>
     <div id="display_area" style="white-space:pre; font-family: monospace;">
-    
+      {{address_information}}
+
     </div>
+    <div id="qr_code"></div>
+
     {% load static %}
     <script src="{% static 'send/main.js'%}"></script>
   </body>  
