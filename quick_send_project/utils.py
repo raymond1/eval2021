@@ -7,5 +7,5 @@ def get_db_handle(db_name, host, port, username, password):
                       username=username,
                       password=password
                      )
- db_handle = client['db_name']
+ db_handle = client[db_name]
  return db_handle, client

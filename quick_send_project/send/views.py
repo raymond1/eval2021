@@ -3,6 +3,7 @@ from string import Template
 from django.shortcuts import render
 from django.http import HttpResponse
 from utils import get_db_handle
+from django.template import loader
 #from blockcypher import get_address_overview
 #from pycurl import Curl
 #import pycurl
@@ -11,16 +12,12 @@ import requests
 
 # Create your views here.
 def index(request):
-	db = get_db_handle('a', 'localhost', '5431', 'ad', 'addff')
+	template = loader.get_template('send/index.html')
+	context = {}
+
+	db = get_db_handle('wallets', 'localhost', 27017, 'raymond', 'a')
 	url = 'https://api.blockcypher.com/v1/btc/test3/addrs/tb1qqkz98e04vakzrprqlehqr46hmx9a98jh586al6'
 	r = requests.get(url)
-	print(r.json())
-	#	curl_raw_response = BytesIO()
-	#curl = pycurl.Curl()
-	#curl.setopt(curl.URL, url)
-	#curl.setopt(curl.WRITEDATA, curl_raw_response)
-	#curl.perform()
-	#curl.close()
 
 	amount_in_satoshis = r.json()['final_balance']
 	#amount = get_address_overview('tb1qqkz98e04vakzrprqlehqr46hmx9a98jh586al6')
@@ -35,7 +32,13 @@ Wallet amount: $AMOUNT<br>
 </body>
 </html>
 	'''
-	template = Template(contents)
-	output_string = template.substitute(AMOUNT=amount_in_satoshis)
+	#template = Template(contents)
+	#output_string = template.substitute(AMOUNT=amount_in_satoshis)
 
-	return HttpResponse(output_string)
+	return HttpResponse(template.render(context,request))
+
+def lookup(request):
+	template = loader.get_template('send/lookup.html')
+	context = {}
+
+	return HttpResponse(template.render(context,request))

@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Look up wallet addresses</title>
+  </head>
+  <body>
+    Enter a wallet address: <input id="address">
+    <button type="button" id="lookup_button">Submit</button>
+    <div id="display_area" style="white-space:pre; font-family: monospace;">
+    
+    </div>
+    {% load static %}
+    <script src="{% static 'send/main.js'%}"></script>
+  </body>  
+</html>
