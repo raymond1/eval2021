@@ -5,5 +5,11 @@
 </head>
 <body>
 <h1>Send Satoshis</h1>
+Originator: <input id="originator"><br>
+Receiver: <input id="receiver"><br>
+Amount(in Satoshis): <input id="amount"><br>
+<button type="button" id="send">Send</button>
+{% load static %}
+<script src="{% static 'send/transfer.js' %}"></script>
 </body>
 </html>
